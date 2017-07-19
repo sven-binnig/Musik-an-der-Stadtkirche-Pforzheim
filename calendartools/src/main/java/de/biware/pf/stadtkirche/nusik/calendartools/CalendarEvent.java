@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.validation.constraints.AssertTrue;
@@ -69,7 +70,7 @@ public class CalendarEvent {
     private final List<Ensemble> ensembles = new ArrayList<>();
 
     @AnyColumn
-    private Map<String, Object> dynamicCols;
+    private Map<String, Object> dynamicCols = new HashMap<>();
 
     private int id;
 

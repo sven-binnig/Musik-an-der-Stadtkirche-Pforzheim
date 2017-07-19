@@ -5,6 +5,7 @@
  */
 package de.biware.pf.stadtkirche.nusik.calendartools;
 
+import de.biware.pf.stadtkirche.nusik.calendartools.test.TemporaryExcelFile;
 import de.biware.pf.stadtkirche.nusik.calendartools.reader.CalendarEventExcelReader;
 import de.biware.pf.stadtkirche.nusik.calendartools.reader.DefaultCalendarEventExcelReader;
 import java.io.File;

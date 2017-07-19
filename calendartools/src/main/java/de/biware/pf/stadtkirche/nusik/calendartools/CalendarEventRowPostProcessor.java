@@ -39,12 +39,10 @@ public class CalendarEventRowPostProcessor implements RowPostProcessor<CalendarE
     private int row = 0;
     private final CalendarEventExcelReader calendarEventExcelReader;
 
-    
     public CalendarEventRowPostProcessor(CalendarEventExcelReader calendarEventExcelReader) {
         this.calendarEventExcelReader = calendarEventExcelReader;
     }
 
-    
     /**
      * Abschlussarbeiten an einem CalendarEvent.
      *
@@ -87,10 +85,14 @@ public class CalendarEventRowPostProcessor implements RowPostProcessor<CalendarE
             t.setBeschreibung(t.getBeschreibung().replace(",", " -"));
         }
     }
-    
+
     private void replaceCharacterInUhrzeit(char toReplace, char replaceWith, CalendarEvent t) {
-        t.setBeginnUhrzeit(t.getBeginnUhrzeit().replace(toReplace, replaceWith));
-        t.setEndeUhrzeit(t.getEndeUhrzeit().replace(toReplace, replaceWith));
+        if (t.getBeginnUhrzeit() != null) {
+            t.setBeginnUhrzeit(t.getBeginnUhrzeit().replace(toReplace, replaceWith));
+        }
+        if (t.getEndeUhrzeit() != null) {
+            t.setEndeUhrzeit(t.getEndeUhrzeit().replace(toReplace, replaceWith));
+        }
     }
 
     private String convertUhrzeitIfNeccessary(String uhrzeit) {
