@@ -1,0 +1,113 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package de.biware.pf.stadtkirche.nusik.calendartools;
+
+import com.ebay.xcelite.reader.RowPostProcessor;
+import de.biware.pf.stadtkirche.nusik.calendartools.reader.CalendarEventExcelReader;
+import de.biware.pf.stadtkirche.nusik.calendartools.validation.CalendarEventValidator;
+import de.biware.pf.stadtkirche.nusik.calendartools.validation.InvalidCalendarEventException;
+import de.biware.pf.stadtkirche.nusik.calendartools.validation.Jsr303CalendarEventValidator;
+import de.biware.pf.stadtkirche.nusik.calendartools.validation.result.ViolationResult;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author svenina
+ */
+public class CalendarEventRowPostProcessor implements RowPostProcessor<CalendarEvent> {
+
+    private static final Map<String, Class<? extends Ensemble>> classMap = new HashMap<>();
+
+    static {
+        classMap.put("Oratorienchor", Oratorienchor.class);
+        classMap.put("Motettenchor", Motettenchor.class);
+        classMap.put("Bachorchester", Bachorchester.class);
+        classMap.put("Große Kurrende Jungen", GrosseKurrendeJungen.class);
+        classMap.put("Große Kurrende Mädchen", GrosseKurrendeMaedchen.class);
+        classMap.put("Jugendkantorei", Jugendkantorei.class);
+        classMap.put("Kantate zum Mitsingen", KantateZumMitsingen.class);
+        classMap.put("Kleine Kurrende", KleineKurrende.class);
+        classMap.put("Projektkantorei", Projektkantorei.class);
+        classMap.put("Singschulklasse I/II", Singschulklasse.class);
+        classMap.put("Bläserensemble", Blaeserensemble.class);
+        classMap.put("Hebel AG Stimmbildung Klasse 5", Hebel5.class);
+        classMap.put("Hebel AG Stimmbildung Klasse 6", Hebel6.class);
+    }
+
+    private int row = 0;
+    private final CalendarEventExcelReader calendarEventExcelReader;
+
+    
+    public CalendarEventRowPostProcessor(CalendarEventExcelReader calendarEventExcelReader) {
+        this.calendarEventExcelReader = calendarEventExcelReader;
+    }
+
+    
+    /**
+     * Abschlussarbeiten an einem CalendarEvent.
+     *
+     * @param t CalendarEvent
+     * @return true
+     */
+    @Override
+    public boolean process(CalendarEvent t) {
+        ++row;
+        if (t.getDynamicCols() != null) {
+
+            t.getDynamicCols().keySet().stream().map((ensembleKey) -> classMap.get(ensembleKey)).forEachOrdered((clazz) -> {
+                try {
+                    if (clazz != null) {
+                        Ensemble ensemble = clazz.newInstance();
+                        //if (t.getArt() == null) {
+                        //    t.setArt("Probe");
+                        //}
+                        t.getEnsembles().add(ensemble);
+                    }
+                } catch (InstantiationException | IllegalAccessException ex) {
+                    Logger.getLogger(CalendarEventRowPostProcessor.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+        }
+        if (t.getArt() == null) {
+            t.setArt("Probe");
+        }
+        t.setEndeUhrzeit(this.convertUhrzeitIfNeccessary(t.getEndeUhrzeit()));
+        t.setBeginnUhrzeit(this.convertUhrzeitIfNeccessary(t.getBeginnUhrzeit()));
+        t.setId(row);
+        this.replaceCSVDelimiters(t);
+
+        return true;
+    }
+
+    private void replaceCSVDelimiters(CalendarEvent t) {
+        if (t.getBeschreibung() != null) {
+            t.setBeschreibung(t.getBeschreibung().replace(",", " -"));
+        }
+    }
+
+    private String convertUhrzeitIfNeccessary(String uhrzeit) {
+        if (uhrzeit != null && uhrzeit.length() > 5 && uhrzeit.charAt(4) == '.') {
+            String neu = uhrzeit.substring(0, 2) + ":" + uhrzeit.substring(2, 4);
+            return neu;
+        } else if (uhrzeit != null && uhrzeit.length() > 4 && uhrzeit.charAt(3) == '.') {
+            // also vor 10.00
+            String neu = uhrzeit.substring(0, 1) + ":" + uhrzeit.substring(1, 3);
+            return neu;
+        } else if (uhrzeit != null && uhrzeit.contains("Uhr") && uhrzeit.contains(".")) {
+            int posUhr = uhrzeit.indexOf("Uhr");
+            int posDot = uhrzeit.indexOf(".");
+            String tmp = uhrzeit.substring(0, posUhr).trim();
+            String neu = tmp.substring(0, posDot);
+            neu += ":" + tmp.substring(posDot + 1);
+            return neu;
+        }
+        return uhrzeit;
+    }
+
+}

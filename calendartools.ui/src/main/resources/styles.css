@@ -1,0 +1,8 @@
+.root {
+    /*-fx-padding: 1em;*/
+    -fx-font-size: 9pt;
+}
+
+.pane {
+    -fx-padding: 1em;
+}
