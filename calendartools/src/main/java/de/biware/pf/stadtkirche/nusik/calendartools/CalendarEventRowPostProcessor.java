@@ -7,10 +7,6 @@ package de.biware.pf.stadtkirche.nusik.calendartools;
 
 import com.ebay.xcelite.reader.RowPostProcessor;
 import de.biware.pf.stadtkirche.nusik.calendartools.reader.CalendarEventExcelReader;
-import de.biware.pf.stadtkirche.nusik.calendartools.validation.CalendarEventValidator;
-import de.biware.pf.stadtkirche.nusik.calendartools.validation.InvalidCalendarEventException;
-import de.biware.pf.stadtkirche.nusik.calendartools.validation.Jsr303CalendarEventValidator;
-import de.biware.pf.stadtkirche.nusik.calendartools.validation.result.ViolationResult;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -81,6 +77,7 @@ public class CalendarEventRowPostProcessor implements RowPostProcessor<CalendarE
         t.setBeginnUhrzeit(this.convertUhrzeitIfNeccessary(t.getBeginnUhrzeit()));
         t.setId(row);
         this.replaceCSVDelimiters(t);
+        this.replaceCharacterInUhrzeit(':', '.', t);
 
         return true;
     }
@@ -89,6 +86,11 @@ public class CalendarEventRowPostProcessor implements RowPostProcessor<CalendarE
         if (t.getBeschreibung() != null) {
             t.setBeschreibung(t.getBeschreibung().replace(",", " -"));
         }
+    }
+    
+    private void replaceCharacterInUhrzeit(char toReplace, char replaceWith, CalendarEvent t) {
+        t.setBeginnUhrzeit(t.getBeginnUhrzeit().replace(toReplace, replaceWith));
+        t.setEndeUhrzeit(t.getEndeUhrzeit().replace(toReplace, replaceWith));
     }
 
     private String convertUhrzeitIfNeccessary(String uhrzeit) {

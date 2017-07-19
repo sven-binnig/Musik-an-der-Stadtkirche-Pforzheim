@@ -13,7 +13,7 @@ public class Blaeserensemble implements Ensemble {
 
     @Override
     public String getName() {
-        return "Bläserensemble";
+        return "Pforzheimer-Blaeserensemble";
     }
 
     @Override
