@@ -71,12 +71,12 @@ public class CalendarEventRowPostProcessor implements RowPostProcessor<CalendarE
         if (t.getArt() == null) {
             t.setArt("Probe");
         }
+        this.replaceCharacterInUhrzeit(':', '.', t);
         t.setEndeUhrzeit(this.convertUhrzeitIfNeccessary(t.getEndeUhrzeit()));
         t.setBeginnUhrzeit(this.convertUhrzeitIfNeccessary(t.getBeginnUhrzeit()));
         t.setId(row);
         this.replaceCSVDelimiters(t);
-        this.replaceCharacterInUhrzeit(':', '.', t);
-
+ 
         return true;
     }
 
