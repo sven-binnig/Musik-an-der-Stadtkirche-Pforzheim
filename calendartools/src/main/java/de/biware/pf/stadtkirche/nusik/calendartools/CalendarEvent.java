@@ -190,7 +190,7 @@ public class CalendarEvent {
         //}
         if (endeDatum != null && beginnDatum != null && beginnUhrzeit != null && endeUhrzeit != null) {
             SimpleDateFormat formatter_1 = new SimpleDateFormat("dd.MM.yyyy");
-            SimpleDateFormat formatter_2 = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+            SimpleDateFormat formatter_2 = new SimpleDateFormat("dd.MM.yyyy HH.mm");
 
             try {
                 Date von = formatter_2.parse(formatter_1.format(beginnDatum) + " " + beginnUhrzeit);

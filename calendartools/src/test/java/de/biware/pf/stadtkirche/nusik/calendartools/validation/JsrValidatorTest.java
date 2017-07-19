@@ -23,10 +23,10 @@ public class JsrValidatorTest {
         CalendarEvent event = new CalendarEvent();
         event.setArt("probe");
         event.setBeginnDatum(new Date());
-        event.setBeginnUhrzeit("0:00");
+        event.setBeginnUhrzeit("0.00");
         event.setBeschreibung("Beschreibung");
         event.setEndeDatum(new Date());
-        event.setEndeUhrzeit("11:11");
+        event.setEndeUhrzeit("11.11");
         event.setId(1);
         event.setOrt("sk");
         event.setWochentag("Mo");
@@ -45,10 +45,10 @@ public class JsrValidatorTest {
         CalendarEvent event = new CalendarEvent();
         event.setArt("probe");
         event.setBeginnDatum(new Date());
-        event.setBeginnUhrzeit("0:00");
+        event.setBeginnUhrzeit("0.00");
         event.setBeschreibung("Beschreibu,ng"); // invalid
         event.setEndeDatum(new Date());
-        event.setEndeUhrzeit("11:11");
+        event.setEndeUhrzeit("11.11");
         event.setId(1);
         event.setOrt("sk");
         event.setWochentag("Mo");
@@ -66,10 +66,10 @@ public class JsrValidatorTest {
         CalendarEvent event = new CalendarEvent();
         event.setArt("probe");
         event.setBeginnDatum(new Date());
-        event.setBeginnUhrzeit("0:00");
+        event.setBeginnUhrzeit("0.00");
         event.setBeschreibung("Beschreibung"); 
         event.setEndeDatum(new Date(0)); // invalid
-        event.setEndeUhrzeit("11:11");
+        event.setEndeUhrzeit("11.11");
         event.setId(1);
         event.setOrt("sk");
         event.setWochentag("Mo");
@@ -88,10 +88,10 @@ public class JsrValidatorTest {
         CalendarEvent event = new CalendarEvent();
         event.setArt("probe");
         event.setBeginnDatum(new Date());
-        event.setBeginnUhrzeit("20:00");
+        event.setBeginnUhrzeit("20.00");
         event.setBeschreibung("Beschreibung"); 
         event.setEndeDatum(new Date()); 
-        event.setEndeUhrzeit("11:11"); // invalid
+        event.setEndeUhrzeit("11.11"); // invalid
         event.setId(1);
         event.setOrt("sk");
         event.setWochentag("Mo");
