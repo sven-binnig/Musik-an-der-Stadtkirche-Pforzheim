@@ -45,11 +45,33 @@ public class RowPostProcessorTest {
     }
     
     @Test
+    public void keineUhrzeitErzeugtKeineException() {
+        CalendarEvent event
+                = builder.start()
+                        .withBeginnUhrzeit("11:11") // muss korrigiert werden
+                        .withBeginndatum(new Date())
+                        .withBeschreibung("Bechreibung")
+                        .withEndeUhrzeit("22.22")
+                        .withEndedatum(new Date())
+                        .withId(0)
+                        .withOrt("Hier")
+                        .withTerminart("Probe")
+                        .withWochentag("Mo")
+                        .build();
+        // perform
+        RowPostProcessor<CalendarEvent> rpp = new CalendarEventRowPostProcessor(null);
+        rpp.process(event);
+        
+        //assert
+        Assert.assertFalse(event.getBeginnUhrzeit().contains(":"));
+    }
+    
+    @Test
     public void csvDelimiterInBeschreibungWirdKorrigiert() {
         // arrange
         CalendarEvent event
                 = builder.start()
-                        .withBeginnUhrzeit("11.11") // muss korrigiert werden
+                        .withBeginnUhrzeit(null) // muss null bleiben
                         .withBeginndatum(new Date())
                         .withBeschreibung("Bechreib,ung")
                         .withEndeUhrzeit("22.22")
@@ -64,7 +86,7 @@ public class RowPostProcessorTest {
         rpp.process(event);
         
         // assert
-        Assert.assertFalse(event.getBeschreibung().contains(","));
+        Assert.assertNull(event.getBeginnUhrzeit());
     }
     
     @Test

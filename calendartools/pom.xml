@@ -29,27 +29,27 @@
         <dependency>
             <groupId>com.ebay</groupId>
             <artifactId>xcelite</artifactId>
-          </dependency>
+        </dependency>
         
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>itextpdf</artifactId>
-           </dependency>
+        </dependency>
 
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>itext-pdfa</artifactId>
-          </dependency>
+        </dependency>
 
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>itext-xtra</artifactId>
-         </dependency>
+        </dependency>
 
         <dependency>
             <groupId>com.itextpdf.tool</groupId>
             <artifactId>xmlworker</artifactId>
-           </dependency>
+        </dependency>
         
         <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
         <!--
@@ -63,7 +63,7 @@
         <dependency>
             <groupId>org.mnode.ical4j</groupId>
             <artifactId>ical4j</artifactId>
-          </dependency>
+        </dependency>
         
         <dependency>
             <groupId>javax.validation</groupId>
@@ -73,7 +73,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-          </dependency>
+        </dependency>
         <dependency>
             <groupId>javax.el</groupId>
             <artifactId>javax.el-api</artifactId>
@@ -81,7 +81,7 @@
         <dependency>
             <groupId>org.glassfish.web</groupId>
             <artifactId>javax.el</artifactId>
-         </dependency>
+        </dependency>
 
      
         <dependency>
@@ -89,6 +89,15 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        
+
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+             <scope>test</scope>
+        </dependency>
+
+
         
     </dependencies>
 </project>
