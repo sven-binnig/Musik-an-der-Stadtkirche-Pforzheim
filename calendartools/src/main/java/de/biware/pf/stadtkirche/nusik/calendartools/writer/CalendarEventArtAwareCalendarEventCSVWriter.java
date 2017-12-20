@@ -150,6 +150,7 @@ public class CalendarEventArtAwareCalendarEventCSVWriter extends AbstractCalenda
         this.writerMap.put("Konzert", this.forCalendarEventArt("Konzert"));
         this.writerMap.put("Gottesdienst", this.forCalendarEventArt("Gottesdienst"));
         this.writerMap.put("Einführung", this.forCalendarEventArt("Einfuehrung"));
+        this.writerMap.put("Musikvermittlung", this.forCalendarEventArt("Musikvermittlung"));
         this.writerMap.put("unbekannt", this.forCalendarEventArt("andere"));
     }
 
