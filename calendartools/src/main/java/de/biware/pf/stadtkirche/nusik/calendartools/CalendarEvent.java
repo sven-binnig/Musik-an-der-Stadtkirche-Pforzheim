@@ -7,6 +7,7 @@ package de.biware.pf.stadtkirche.nusik.calendartools;
 
 import com.ebay.xcelite.annotations.AnyColumn;
 import com.ebay.xcelite.annotations.Column;
+import de.biware.pf.stadtkirche.nusik.calendartools.utils.DateUtils;
 import de.biware.pf.stadtkirche.nusik.calendartools.validation.NoCSVDelimiter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -204,5 +205,14 @@ public class CalendarEvent {
         }
         return false;
     }
-
+    
+    @AssertTrue(message = "Endedatum und Wochentag passen nicht zusammen")
+    public boolean isWochentagPassendZuDatum() {
+         return DateUtils.dateSuitsToWeekday(this.beginnDatum, this.wochentag);
+    }
+    
+    @AssertTrue(message = "Endeuhrzeit darf nicht 24:00 Uhr sein. Ggf. auf 23:59 korrigieren?")
+    public boolean isEndeUhrzeitNotMidnight() {
+        return !"24:00".equals(this.endeUhrzeit);
+    }
 }

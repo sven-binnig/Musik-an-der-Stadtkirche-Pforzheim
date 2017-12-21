@@ -8,6 +8,8 @@ package de.biware.pf.stadtkirche.nusik.calendartools.validation;
 import de.biware.pf.stadtkirche.nusik.calendartools.CalendarEvent;
 import de.biware.pf.stadtkirche.nusik.calendartools.Motettenchor;
 import de.biware.pf.stadtkirche.nusik.calendartools.validation.result.ViolationResult;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,17 +21,18 @@ import org.junit.Test;
 public class JsrValidatorTest {
 
     @Test
-    public void fehlendesEnsembleIstNichtFatal() {
+    public void fehlendesEnsembleIstNichtFatal() throws ParseException {
         CalendarEvent event = new CalendarEvent();
         event.setArt("probe");
-        event.setBeginnDatum(new Date());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        event.setBeginnDatum(sdf.parse("20171224"));
         event.setBeginnUhrzeit("0:00");
         event.setBeschreibung("Beschreibung");
-        event.setEndeDatum(new Date());
+        event.setEndeDatum(sdf.parse("20171224"));
         event.setEndeUhrzeit("11:11");
         event.setId(1);
         event.setOrt("sk");
-        event.setWochentag("Mo");
+        event.setWochentag("So.");
         event.getEnsembles().clear(); // invalid
 
         CalendarEventValidator validator = new Jsr303CalendarEventValidator();
@@ -102,6 +105,52 @@ public class JsrValidatorTest {
         System.out.println(result.getFailures().get(0).getPropertyPath());
         if (!result.isFatal()) {
             Assert.fail("severity ist check, obwohl fatal erwartet wurde");
+        }
+    }
+    
+    @Test
+    public void wochentagDerNichtZumDatumPasstIstFatal() throws ParseException {
+        CalendarEvent event = new CalendarEvent();
+        event.setArt("probe");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        event.setBeginnDatum(sdf.parse("20171224"));
+        event.setBeginnUhrzeit("0:00");
+        event.setBeschreibung("Beschreibung");
+        event.setEndeDatum(sdf.parse("20171224"));
+        event.setEndeUhrzeit("11:11");
+        event.setId(1);
+        event.setOrt("sk");
+        event.setWochentag("Mo.");
+        event.getEnsembles().clear(); // invalid
+
+        CalendarEventValidator validator = new Jsr303CalendarEventValidator();
+        ViolationResult result = validator.validate(event);
+        if (!result.isFatal()) {
+            Assert.fail("nicht passender Wochentag ist fatal");
+
+        }
+    }
+    
+    @Test
+    public void einEndeUmMitternachtNichtFatal() throws ParseException {
+        CalendarEvent event = new CalendarEvent();
+        event.setArt("probe");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        event.setBeginnDatum(sdf.parse("20171224"));
+        event.setBeginnUhrzeit("0:00");
+        event.setBeschreibung("Beschreibung");
+        event.setEndeDatum(sdf.parse("20171224"));
+        event.setEndeUhrzeit("24:00");
+        event.setId(1);
+        event.setOrt("sk");
+        event.setWochentag("So.");
+        event.getEnsembles().clear(); // invalid
+
+        CalendarEventValidator validator = new Jsr303CalendarEventValidator();
+        ViolationResult result = validator.validate(event);
+        if (result.isFatal()) {
+            Assert.fail("severity ist fatal, obwohl check erwartet wurde");
+
         }
     }
 

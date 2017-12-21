@@ -39,4 +39,12 @@ public class DateUtils {
         LocalDate ld = asLocalDate(date).plusDays(days);
         return asDate(ld);
     }
+    
+    public static boolean dateSuitsToWeekday(Date date, String weekday) {
+        LocalDate ld = asLocalDate(date);
+        int dayOfWeek = ld.getDayOfWeek().getValue();
+        String[] dow = {"-", "Mo.", "Di.", "Mi.", "Do.", "Fr.", "Sa.", "So."};
+        
+        return weekday.equals(dow[dayOfWeek]);
+    }
 }
