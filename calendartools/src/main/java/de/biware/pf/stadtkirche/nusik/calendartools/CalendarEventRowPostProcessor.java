@@ -33,7 +33,8 @@ public class CalendarEventRowPostProcessor implements RowPostProcessor<CalendarE
         classMap.put("Singschulklasse I/II", Singschulklasse.class);
         classMap.put("Bläserensemble", Blaeserensemble.class);
         classMap.put("Hebel AG Stimmbildung Klasse 5", Hebel5.class);
-        classMap.put("Hebel AG Stimmbildung Klasse 6", Hebel6.class);
+        classMap.put("Unterstufenchor Hebel", HebelUnterstufenchor.class);
+        classMap.put("Singen im Kindergarten", SingenImKindergarten.class);
     }
 
     private int row = 0;

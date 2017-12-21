@@ -9,11 +9,11 @@ package de.biware.pf.stadtkirche.nusik.calendartools;
  *
  * @author svenina
  */
-public class Hebel6 implements Ensemble {
+public class HebelUnterstufenchor implements Ensemble {
 
     @Override
     public String getName() {
-        return "Hebel AG Stimmbildung Klasse 6";
+        return "chorgruppen-der-klassen-5-7-des-hebel-gymnasiums";
     }
 
     @Override
