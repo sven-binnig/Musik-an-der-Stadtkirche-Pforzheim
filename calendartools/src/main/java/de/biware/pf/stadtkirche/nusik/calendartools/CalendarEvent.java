@@ -206,7 +206,7 @@ public class CalendarEvent {
         return false;
     }
     
-    @AssertTrue(message = "Endedatum und Wochentag passen nicht zusammen")
+    @AssertTrue(message = "Beginndatum und Wochentag passen nicht zusammen")
     public boolean isWochentagPassendZuDatum() {
          return DateUtils.dateSuitsToWeekday(this.beginnDatum, this.wochentag);
     }

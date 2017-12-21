@@ -9,7 +9,9 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.TextStyle;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  *
@@ -43,8 +45,9 @@ public class DateUtils {
     public static boolean dateSuitsToWeekday(Date date, String weekday) {
         LocalDate ld = asLocalDate(date);
         int dayOfWeek = ld.getDayOfWeek().getValue();
-        String[] dow = {"-", "Mo.", "Di.", "Mi.", "Do.", "Fr.", "Sa.", "So."};
+        //System.out.println(ld.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.GERMANY));
+        String[] dow = {"-", "Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"};
         
-        return weekday.equals(dow[dayOfWeek]);
+        return weekday.startsWith(dow[dayOfWeek]);
     }
 }
