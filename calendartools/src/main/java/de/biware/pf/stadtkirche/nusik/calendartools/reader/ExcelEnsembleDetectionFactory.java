@@ -8,6 +8,7 @@ package de.biware.pf.stadtkirche.nusik.calendartools.reader;
 import com.ebay.xcelite.Xcelite;
 import com.ebay.xcelite.reader.SheetReader;
 import com.ebay.xcelite.sheet.XceliteSheet;
+import de.biware.pf.stadtkirche.nusik.calendartools.ConfigurableEnsemble;
 import de.biware.pf.stadtkirche.nusik.calendartools.Ensemble;
 import java.io.File;
 import java.util.HashMap;
@@ -32,7 +33,7 @@ public class ExcelEnsembleDetectionFactory implements EnsembleDetectionFactory {
     private void init() {
         Xcelite xcelite = new Xcelite(this.excelFile);
         XceliteSheet sheet = xcelite.getSheet(this.sheetName);
-        SheetReader<Ensemble> reader = sheet.getBeanReader(Ensemble.class);
+        SheetReader<ConfigurableEnsemble> reader = sheet.getBeanReader(ConfigurableEnsemble.class);
         reader.skipHeaderRow(true);
         
         reader.read().forEach(ensemble -> {

@@ -6,6 +6,7 @@
 package de.biware.pf.stadtkirche.nusik.calendartools;
 
 import com.ebay.xcelite.annotations.Column;
+import de.biware.pf.stadtkirche.nusik.calendartools.converter.EnsembleCategoryConverter;
 import de.biware.pf.stadtkirche.nusik.calendartools.validation.NoCSVDelimiter;
 
 /**
@@ -15,29 +16,26 @@ import de.biware.pf.stadtkirche.nusik.calendartools.validation.NoCSVDelimiter;
 public class ConfigurableEnsemble implements Ensemble {
     @Column(name = "klarname")
     @NoCSVDelimiter
-    private final String klarname;
+    private String klarname;
     @Column(name = "excelName")
     @NoCSVDelimiter
-    private final String excelMappingName;
+    private String excelMappingName;
     @Column(name = "cmsName")
     @NoCSVDelimiter
-    private final String cmsMappingName;
+    private String cmsMappingName;
     @Column(name = "ensembleCategory")
-    @NoCSVDelimiter
-    private final EnsembleCategory ensembleCategory;
+    private String ensembleCategory;
 
-    public ConfigurableEnsemble(String klarname, String excelMappingName, String cmsMappingName, EnsembleCategory ensembleCategory) {
-        this.klarname = klarname;
-        this.excelMappingName = excelMappingName;
-        this.cmsMappingName = cmsMappingName;
-        this.ensembleCategory = ensembleCategory;
+    public ConfigurableEnsemble() {
+        // nop
     }
-    
+       
+        
     public ConfigurableEnsemble(String klarname, String excelMappingName, String cmsMappingName, String ensembleCategoryName) {
         this.klarname = klarname;
         this.excelMappingName = excelMappingName;
         this.cmsMappingName = cmsMappingName;
-        this.ensembleCategory = EnsembleCategory.valueOf(ensembleCategoryName.toUpperCase());
+        this.ensembleCategory = ensembleCategoryName.toUpperCase();
     }
     
     
@@ -49,7 +47,7 @@ public class ConfigurableEnsemble implements Ensemble {
 
     @Override
     public EnsembleCategory getEnsembleCategory() {
-        return this.ensembleCategory;
+        return EnsembleCategory.valueOf(this.ensembleCategory.toUpperCase());
     }
 
     @Override
@@ -61,5 +59,23 @@ public class ConfigurableEnsemble implements Ensemble {
     public String getCMSMappingName() {
         return this.cmsMappingName;
     }
+
+    public void setKlarname(String klarname) {
+        this.klarname = klarname;
+    }
+
+    public void setExcelMappingName(String excelMappingName) {
+        this.excelMappingName = excelMappingName;
+    }
+
+    public void setCmsMappingName(String cmsMappingName) {
+        this.cmsMappingName = cmsMappingName;
+    }
+
+    public void setEnsembleCategory(EnsembleCategory ensembleCategory) {
+        this.ensembleCategory = ensembleCategory.name();
+    }
+    
+    
     
 }

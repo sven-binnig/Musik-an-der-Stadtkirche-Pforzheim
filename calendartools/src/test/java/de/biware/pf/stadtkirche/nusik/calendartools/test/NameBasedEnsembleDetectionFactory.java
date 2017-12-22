@@ -18,7 +18,7 @@ public class NameBasedEnsembleDetectionFactory implements EnsembleDetectionFacto
 
     @Override
     public Ensemble fromExcelName(String execelName) {
-        return new ConfigurableEnsemble(execelName, execelName, execelName, EnsembleCategory.SPIELEN);
+        return new ConfigurableEnsemble(execelName, execelName, execelName, "SPIELEN");
     }
     
 }
