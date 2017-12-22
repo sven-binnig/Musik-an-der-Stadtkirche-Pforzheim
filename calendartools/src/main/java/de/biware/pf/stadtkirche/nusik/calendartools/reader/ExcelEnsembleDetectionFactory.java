@@ -8,11 +8,8 @@ package de.biware.pf.stadtkirche.nusik.calendartools.reader;
 import com.ebay.xcelite.Xcelite;
 import com.ebay.xcelite.reader.SheetReader;
 import com.ebay.xcelite.sheet.XceliteSheet;
-import de.biware.pf.stadtkirche.nusik.calendartools.CalendarEvent;
-import de.biware.pf.stadtkirche.nusik.calendartools.CalendarEventRowPostProcessor;
 import de.biware.pf.stadtkirche.nusik.calendartools.Ensemble;
 import java.io.File;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +26,7 @@ public class ExcelEnsembleDetectionFactory implements EnsembleDetectionFactory {
     public ExcelEnsembleDetectionFactory(File excelFile, String sheetName) {
         this.excelFile = excelFile;
         this.sheetName = sheetName;
+        this.init();
     }
     
     private void init() {
