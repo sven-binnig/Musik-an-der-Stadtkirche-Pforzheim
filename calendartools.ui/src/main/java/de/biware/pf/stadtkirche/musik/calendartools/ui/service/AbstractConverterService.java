@@ -7,6 +7,7 @@ package de.biware.pf.stadtkirche.musik.calendartools.ui.service;
 
 import de.biware.pf.stadtkirche.nusik.calendartools.observer.ConverterProgressObserver;
 import de.biware.pf.stadtkirche.nusik.calendartools.observer.ReaderWriterMessageObserver;
+import de.biware.pf.stadtkirche.nusik.calendartools.reader.EnsembleDetectionFactory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,13 +22,19 @@ public abstract class AbstractConverterService implements ConverterService {
     private final Collection<ReaderWriterMessageObserver> messageObservers = new ArrayList<>();
     private final Collection<ConverterProgressObserver> progressOberservers = new ArrayList<>();
     private final boolean shouldValidate;
+    private final EnsembleDetectionFactory ensembleDetector;
 
-    public AbstractConverterService(boolean shouldValidate) {
+    public AbstractConverterService(boolean shouldValidate, EnsembleDetectionFactory ensembleDetector) {
         this.shouldValidate = shouldValidate;
+        this.ensembleDetector = ensembleDetector;
     }
 
     protected boolean isShouldValidate() {
         return shouldValidate;
+    }
+
+    protected EnsembleDetectionFactory getEnsembleDetector() {
+        return ensembleDetector;
     }
     
     

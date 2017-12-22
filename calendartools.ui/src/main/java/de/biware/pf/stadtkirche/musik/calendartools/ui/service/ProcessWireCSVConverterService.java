@@ -9,6 +9,7 @@ import de.biware.pf.stadtkirche.nusik.calendartools.CalendarEvent;
 import de.biware.pf.stadtkirche.nusik.calendartools.processor.CalendarEventManipulatingProcessor;
 import de.biware.pf.stadtkirche.nusik.calendartools.reader.CalendarEventExcelReader;
 import de.biware.pf.stadtkirche.nusik.calendartools.reader.DefaultCalendarEventExcelReader;
+import de.biware.pf.stadtkirche.nusik.calendartools.reader.EnsembleDetectionFactory;
 import de.biware.pf.stadtkirche.nusik.calendartools.validation.result.DefaultValidationService;
 import de.biware.pf.stadtkirche.nusik.calendartools.validation.result.ValidationService;
 import de.biware.pf.stadtkirche.nusik.calendartools.validation.result.ViolationResult;
@@ -30,8 +31,8 @@ public class ProcessWireCSVConverterService extends AbstractConverterService {
     private final Logger logger = Logger.getLogger(this.getClass());
     private final ValidationService validationService = new DefaultValidationService();
 
-    public ProcessWireCSVConverterService(boolean shouldValidate) {
-        super(shouldValidate);
+    public ProcessWireCSVConverterService(boolean shouldValidate, EnsembleDetectionFactory ensembleDetector) {
+        super(shouldValidate, ensembleDetector);
     }
 
     public void setCalendarEventProcessor(CalendarEventManipulatingProcessor calendarEventProcessor) {
@@ -41,7 +42,7 @@ public class ProcessWireCSVConverterService extends AbstractConverterService {
     @Override
     protected void doConvert(File excelFile, File outputDirectory, String tabellenBlatt) throws ConvertException {
         CalendarEventExcelReader reader
-                = new DefaultCalendarEventExcelReader(excelFile, tabellenBlatt, super.isShouldValidate());
+                = new DefaultCalendarEventExcelReader(excelFile, tabellenBlatt, super.isShouldValidate(), super.getEnsembleDetector());
 
         CalendarEventArtAwareCalendarEventCSVWriter writer
                 = new CalendarEventArtAwareCalendarEventCSVWriter();

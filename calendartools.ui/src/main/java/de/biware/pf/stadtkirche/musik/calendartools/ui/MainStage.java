@@ -13,6 +13,7 @@ import de.biware.pf.stadtkirche.musik.calendartools.ui.service.ProcessWireCSVCon
 import de.biware.pf.stadtkirche.musik.calendartools.ui.service.WordProbenplanConverterService;
 import de.biware.pf.stadtkirche.nusik.calendartools.observer.ConverterProgressObserver;
 import de.biware.pf.stadtkirche.nusik.calendartools.observer.ReaderWriterMessageObserver;
+import de.biware.pf.stadtkirche.nusik.calendartools.reader.ExcelEnsembleDetectionFactory;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -53,6 +54,8 @@ import org.apache.log4j.MDC;
  */
 public class MainStage extends Application implements ReaderWriterMessageObserver, ConverterProgressObserver {
 
+    private static String EMSBLE_SHEET_NAME = "Ensembles";
+    
     //private TextField spinnerDay;
     private CheckBox shouldValidate;
     private CheckBox cbCsv;
@@ -362,7 +365,7 @@ public class MainStage extends Application implements ReaderWriterMessageObserve
         MDC.put("username", System.getProperty("user.name"));
         if (cbCsv.isSelected()) {
             this.progressBar.setProgress(0);
-            ConverterService service = new ProcessWireCSVConverterService(shouldValidate.isSelected());
+            ConverterService service = new ProcessWireCSVConverterService(shouldValidate.isSelected(), new ExcelEnsembleDetectionFactory(new File(tfExcelFile.getText()), EMSBLE_SHEET_NAME));
             //int days = this.spinnerDay.getValue().intValue();
             //if(!this.spinnerDay.getText().isEmpty()) {
             //    ((ProcessWireCSVConverterService)service).setCalendarEventProcessor(new DateCalendarEventManipulatingProcessor(Integer.parseInt(this.spinnerDay.getText())));
@@ -374,7 +377,7 @@ public class MainStage extends Application implements ReaderWriterMessageObserve
 
         if (cbProbenplanPDF.isSelected()) {
             this.progressBar.setProgress(0);
-            ConverterService service = new PDFProbenplanConverterService(shouldValidate.isSelected());
+            ConverterService service = new PDFProbenplanConverterService(shouldValidate.isSelected(),new ExcelEnsembleDetectionFactory(new File(tfExcelFile.getText()), EMSBLE_SHEET_NAME));
             service.registerReaderWriterMessageObserver(this);
             service.registerConverterProgressObserver(this);
             service.convert(new File(tfExcelFile.getText()), new File(tfOutputDirPDF.getText()), tabellenBlatt);
@@ -382,7 +385,7 @@ public class MainStage extends Application implements ReaderWriterMessageObserve
 
         if (cbProbenplanWord.isSelected()) {
             this.progressBar.setProgress(0);
-            ConverterService service = new WordProbenplanConverterService(shouldValidate.isSelected());
+            ConverterService service = new WordProbenplanConverterService(shouldValidate.isSelected(), new ExcelEnsembleDetectionFactory(new File(tfExcelFile.getText()), EMSBLE_SHEET_NAME));
             service.registerReaderWriterMessageObserver(this);
             service.registerConverterProgressObserver(this);
             service.convert(new File(tfExcelFile.getText()), new File(tfOutputDirWord.getText()), tabellenBlatt);
@@ -390,7 +393,7 @@ public class MainStage extends Application implements ReaderWriterMessageObserve
 
         if (cbProbenplanICS.isSelected()) {
             this.progressBar.setProgress(0);
-            ConverterService service = new ICalendarProbenplanConverterService(shouldValidate.isSelected());
+            ConverterService service = new ICalendarProbenplanConverterService(shouldValidate.isSelected(), new ExcelEnsembleDetectionFactory(new File(tfExcelFile.getText()), EMSBLE_SHEET_NAME));
             service.registerReaderWriterMessageObserver(this);
             service.registerConverterProgressObserver(this);
             service.convert(new File(tfExcelFile.getText()), new File(tfOutputDirICS.getText()), tabellenBlatt);
