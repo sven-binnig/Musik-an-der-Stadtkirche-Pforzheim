@@ -6,7 +6,6 @@
 package de.biware.pf.stadtkirche.nusik.calendartools;
 
 import com.ebay.xcelite.annotations.Column;
-import de.biware.pf.stadtkirche.nusik.calendartools.converter.EnsembleCategoryConverter;
 import de.biware.pf.stadtkirche.nusik.calendartools.validation.NoCSVDelimiter;
 
 /**
