@@ -57,22 +57,11 @@ public class CalendarEventRowPostProcessor implements RowPostProcessor<CalendarE
         ++row;
         if (t.getDynamicCols() != null) {
 
-            /*t.getDynamicCols().keySet().stream().map((ensembleKey) -> classMap.get(ensembleKey)).forEachOrdered((clazz) -> {
-            try {
-            if (clazz != null) {
-            Ensemble ensemble = clazz.newInstance();
-            //if (t.getArt() == null) {
-            //    t.setArt("Probe");
-            //}
-            t.getEnsembles().add(ensemble);
+            // avoid auto generated lambda here ...
+            for(String key: t.getDynamicCols().keySet()) {
+                Ensemble ensemble = this.ensembleDetector.fromExcelName(key);
+                t.getEnsembles().add(ensemble);
             }
-            } catch (InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(CalendarEventRowPostProcessor.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            });*/
-            t.getDynamicCols().keySet().stream().map((ensembleKey) -> this.ensembleDetector.fromExcelName(t.getDynamicCols().get(ensembleKey).toString())).forEachOrdered((ensembe) -> {
-                t.getEnsembles().add(ensembe);
-            });
         }
         if (t.getArt() == null) {
             t.setArt("Probe");
