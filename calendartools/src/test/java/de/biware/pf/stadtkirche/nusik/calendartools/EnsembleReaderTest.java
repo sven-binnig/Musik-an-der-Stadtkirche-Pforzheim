@@ -5,6 +5,7 @@
  */
 package de.biware.pf.stadtkirche.nusik.calendartools;
 
+import com.ebay.xcelite.exceptions.XceliteException;
 import de.biware.pf.stadtkirche.nusik.calendartools.reader.EnsembleDetectionFactory;
 import de.biware.pf.stadtkirche.nusik.calendartools.reader.ExcelEnsembleDetectionFactory;
 import java.io.File;
@@ -23,6 +24,12 @@ public class EnsembleReaderTest {
         Ensemble e = edf.fromExcelName("bo");
         Assert.assertTrue(e.getEnsembleCategory() == EnsembleCategory.SPIELEN);
         Assert.assertEquals("Bachorchester", e.getName());
+    }
+    
+    @Test(expected = XceliteException.class)
+    public void missingEnsembleConfigurationWillThrowException() {
+        File excel = new File("src/test/resources/ensembles.xlsx");
+        EnsembleDetectionFactory edf = new ExcelEnsembleDetectionFactory(excel, "murks");
     }
     
 }
