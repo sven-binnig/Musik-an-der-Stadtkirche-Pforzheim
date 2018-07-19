@@ -12,5 +12,11 @@ package de.biware.pf.stadtkirche.nusik.calendartools;
 public interface Ensemble {
     public String getName();
     public EnsembleCategory getEnsembleCategory();
-    
+    default String getExcelMappingName() {
+        return getName();
+    }
+    default String getCMSMappingName() {
+        return getName();
+                
+    }
 }

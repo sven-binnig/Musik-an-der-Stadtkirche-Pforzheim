@@ -10,6 +10,7 @@ import de.biware.pf.stadtkirche.nusik.calendartools.reader.DefaultCalendarEventE
 import de.biware.pf.stadtkirche.nusik.calendartools.test.CalendarEventBuilder;
 import de.biware.pf.stadtkirche.nusik.calendartools.test.ExcelFileCreator;
 import de.biware.pf.stadtkirche.nusik.calendartools.test.ListOfCalendarEventsMatcher;
+import de.biware.pf.stadtkirche.nusik.calendartools.test.NameBasedEnsembleDetectionFactory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -61,7 +62,7 @@ public class DynamicExcelReaderTest {
         creator.create(events);
         
         CalendarEventExcelReader reader
-                = new DefaultCalendarEventExcelReader(xls, SHEET);
+                = new DefaultCalendarEventExcelReader(xls, SHEET, new NameBasedEnsembleDetectionFactory());
         
         Collection<CalendarEvent> readEvents = reader.read();
         

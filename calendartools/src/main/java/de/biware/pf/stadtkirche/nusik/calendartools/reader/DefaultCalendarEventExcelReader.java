@@ -25,17 +25,19 @@ public class DefaultCalendarEventExcelReader implements CalendarEventExcelReader
     private final File excelFile;
     private final String sheetName;
     private final boolean shouldValidate;
+    private final EnsembleDetectionFactory ensembleDetector;
     private boolean hasValidationErrors = false;
     private final List<ViolationResult> validatorMessages = new ArrayList<>();
 
-    public DefaultCalendarEventExcelReader(File excelFile, String sheetName) {
-        this(excelFile, sheetName, false);
+    public DefaultCalendarEventExcelReader(File excelFile, String sheetName, EnsembleDetectionFactory ensembleDetector) {
+        this(excelFile, sheetName, false, ensembleDetector);
     }
     
-    public DefaultCalendarEventExcelReader(File excelFile, String sheetName, boolean validate) {
+    public DefaultCalendarEventExcelReader(File excelFile, String sheetName, boolean validate, EnsembleDetectionFactory ensembleDetector) {
         this.excelFile = excelFile;
         this.sheetName = sheetName;
         this.shouldValidate = validate;
+        this.ensembleDetector = ensembleDetector;
     }
     
     
@@ -57,7 +59,7 @@ public class DefaultCalendarEventExcelReader implements CalendarEventExcelReader
         // CalendarEvent
         SheetReader<CalendarEvent> reader = sheet.getBeanReader(CalendarEvent.class);
         reader.skipHeaderRow(true);
-        reader.addRowPostProcessor(new CalendarEventRowPostProcessor(this));
+        reader.addRowPostProcessor(new CalendarEventRowPostProcessor(this, this.ensembleDetector));
         Collection<CalendarEvent> calendarEvents = reader.read();
         
         return calendarEvents;

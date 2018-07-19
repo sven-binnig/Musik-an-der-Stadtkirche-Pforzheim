@@ -8,6 +8,7 @@ package de.biware.pf.stadtkirche.musik.calendartools.ui.service;
 import de.biware.pf.stadtkirche.nusik.calendartools.CalendarEvent;
 import de.biware.pf.stadtkirche.nusik.calendartools.reader.CalendarEventExcelReader;
 import de.biware.pf.stadtkirche.nusik.calendartools.reader.DefaultCalendarEventExcelReader;
+import de.biware.pf.stadtkirche.nusik.calendartools.reader.EnsembleDetectionFactory;
 import de.biware.pf.stadtkirche.nusik.calendartools.writer.CalendarEventWriter;
 import de.biware.pf.stadtkirche.nusik.calendartools.writer.EnsembleAwareProbenplanWordWriter;
 import java.io.File;
@@ -19,14 +20,14 @@ import java.util.Collection;
  */
 public class WordProbenplanConverterService extends AbstractConverterService {
 
-    public WordProbenplanConverterService(boolean shouldValidate) {
-        super(shouldValidate);
+    public WordProbenplanConverterService(boolean shouldValidate,  EnsembleDetectionFactory ensembleDetector) {
+        super(shouldValidate, ensembleDetector);
     }
 
     @Override
     protected void doConvert(File excelFile, File outputDirectory, String tabellenBlatt) throws ConvertException {
         CalendarEventExcelReader reader
-                = new DefaultCalendarEventExcelReader(excelFile,tabellenBlatt, super.isShouldValidate());
+                = new DefaultCalendarEventExcelReader(excelFile,tabellenBlatt, super.isShouldValidate(), super.getEnsembleDetector());
  
                
         Collection<CalendarEvent> events = reader.read();

@@ -7,6 +7,7 @@ package de.biware.pf.stadtkirche.nusik.calendartools;
 
 import com.ebay.xcelite.reader.RowPostProcessor;
 import de.biware.pf.stadtkirche.nusik.calendartools.reader.CalendarEventExcelReader;
+import de.biware.pf.stadtkirche.nusik.calendartools.reader.EnsembleDetectionFactory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -18,7 +19,7 @@ import java.util.logging.Logger;
  */
 public class CalendarEventRowPostProcessor implements RowPostProcessor<CalendarEvent> {
 
-    private static final Map<String, Class<? extends Ensemble>> classMap = new HashMap<>();
+    /*private static final Map<String, Class<? extends Ensemble>> classMap = new HashMap<>();
 
     static {
         classMap.put("Oratorienchor", Oratorienchor.class);
@@ -35,13 +36,14 @@ public class CalendarEventRowPostProcessor implements RowPostProcessor<CalendarE
         classMap.put("Hebel AG Stimmbildung Klasse 5", Hebel5.class);
         classMap.put("Unterstufenchor Hebel", HebelUnterstufenchor.class);
         classMap.put("Singen im Kindergarten", SingenImKindergarten.class);
-    }
-
+    }*/
     private int row = 0;
     private final CalendarEventExcelReader calendarEventExcelReader;
+    private final EnsembleDetectionFactory ensembleDetector;
 
-    public CalendarEventRowPostProcessor(CalendarEventExcelReader calendarEventExcelReader) {
+    public CalendarEventRowPostProcessor(CalendarEventExcelReader calendarEventExcelReader, EnsembleDetectionFactory ensembleDetector) {
         this.calendarEventExcelReader = calendarEventExcelReader;
+        this.ensembleDetector = ensembleDetector;
     }
 
     /**
@@ -55,19 +57,11 @@ public class CalendarEventRowPostProcessor implements RowPostProcessor<CalendarE
         ++row;
         if (t.getDynamicCols() != null) {
 
-            t.getDynamicCols().keySet().stream().map((ensembleKey) -> classMap.get(ensembleKey)).forEachOrdered((clazz) -> {
-                try {
-                    if (clazz != null) {
-                        Ensemble ensemble = clazz.newInstance();
-                        //if (t.getArt() == null) {
-                        //    t.setArt("Probe");
-                        //}
-                        t.getEnsembles().add(ensemble);
-                    }
-                } catch (InstantiationException | IllegalAccessException ex) {
-                    Logger.getLogger(CalendarEventRowPostProcessor.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            });
+            // avoid auto generated lambda here ...
+            for(String key: t.getDynamicCols().keySet()) {
+                Ensemble ensemble = this.ensembleDetector.fromExcelName(key);
+                t.getEnsembles().add(ensemble);
+            }
         }
         if (t.getArt() == null) {
             t.setArt("Probe");
@@ -77,7 +71,7 @@ public class CalendarEventRowPostProcessor implements RowPostProcessor<CalendarE
         t.setBeginnUhrzeit(this.convertUhrzeitIfNeccessary(t.getBeginnUhrzeit()));
         t.setId(row);
         this.replaceCSVDelimiters(t);
- 
+
         return true;
     }
 
