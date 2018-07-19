@@ -54,7 +54,7 @@ import org.apache.log4j.MDC;
  */
 public class MainStage extends Application implements ReaderWriterMessageObserver, ConverterProgressObserver {
 
-    private static String EMSBLE_SHEET_NAME = "Ensembles";
+    private static String EMSBLE_SHEET_NAME = "Ensembles"; 
     
     //private TextField spinnerDay;
     private CheckBox shouldValidate;
