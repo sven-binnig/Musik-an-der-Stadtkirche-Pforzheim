@@ -22,6 +22,7 @@ public class EnsembleReaderTest {
         EnsembleDetectionFactory edf = new ExcelEnsembleDetectionFactory(excel, "Tabelle1");
         Ensemble e = edf.fromExcelName("bo");
         Assert.assertTrue(e.getEnsembleCategory() == EnsembleCategory.SPIELEN);
+        Assert.assertEquals("Bachorchester", e.getName());
     }
     
 }
